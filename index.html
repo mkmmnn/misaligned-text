@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📦</text></svg>">
-  <link rel="stylesheet" href="style.css">
+  <!-- todo how to make link tag stylesheet blocking -->
   <link href="https://db.onlinewebfonts.com/c/2aca88f4a632619f8c02110a95189036?family=Franklin+Gothic+Extra+Condensed"
     rel="stylesheet">
   <title>misaligned text</title>
@@ -14,7 +14,39 @@
   <meta name="description" content="misaligned text" />
 
 <body>
-  <textarea></textarea>
+  <input id="misaligned-input" />
+  <div id="target"></div>
+  <script>
+    const getRandom = (list) => {
+      return list[Math.floor(Math.random() * list.length)]
+    }
+    const styleLetter = (element) => {
+      element.style.fontFamily = 'Franklin Gothic Extra Condensed';
+      element.style.textTransform = 'uppercase';
+      element.style.fontSize = '40px';
+      element.style.paddingLeft = getRandom(['0px', '0px', '0px', '0px', '0px', '2px', '-2px']);
+      element.style.verticalAlign = getRandom(['0px', '0px', '0px', '0px', '0px', '1px', '-1px']);
+      if (element.innerHTML !== ' ') {
+        element.style.display = 'inline-block'
+        element.style.transform = `rotate(${getRandom(['0deg', '0deg', '0deg', '0deg', '0deg', '0deg', '0deg', '0deg', '2deg', '-2deg'])})`
+      }
+    }
+    const updateMisalignedText = (e) => {
+      let targetDiv = document.getElementById('target');
+      targetDiv.innerHTML = '';
+      [...e.target.value].forEach((letter) => {
+        let span = document.createElement('span');
+        span.innerHTML = letter;
+        styleLetter(span);
+        targetDiv.appendChild(span);
+      });
+    }
+    const misalignText = () => {
+      const inputElement = document.getElementById('misaligned-input');
+      inputElement.addEventListener('input', updateMisalignedText)
+    }
+    misalignText();
+  </script>
 </body>
 
 </html>
